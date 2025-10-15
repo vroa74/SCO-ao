@@ -33,24 +33,26 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'rfc' => 'nullable|string|max:14|min:10',
-            'curp' => 'nullable|string|max:19|min:10',
-            'sexo' => 'nullable|in:femenino,masculino',
-            'theme' => 'nullable|in:dark,light',
-            'puesto' => 'nullable|in:Director,Subdirector,Coordinador,Jefe de departamento,Analista Especializado,Analista',
-            'nivel' => 'nullable|integer|min:1|max:7',
+            'rfc' => 'nullable|string|max:13|unique:users,rfc',
+            'curp' => 'nullable|string|max:20|unique:users,curp',
+            'direccion' => 'nullable|string|max:250',
+            'cargo' => 'nullable|string|max:35',
+            'sexo' => 'nullable|in:masculino,femenino',
+            'lvl' => 'nullable|string|max:10',
+            'tipo' => 'required|integer|min:1|max:5',
             'estatus' => 'nullable|boolean',
+            'theme' => 'nullable|in:light,dark',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $userData = $request->except(['password_confirmation', 'photo']);
         $userData['password'] = Hash::make($request->password);
-        $userData['nivel'] = $userData['nivel'] ?? 7;
+        $userData['tipo'] = $userData['tipo'] ?? 3;
         $userData['estatus'] = $userData['estatus'] ?? true;
-        $userData['theme'] = $userData['theme'] ?? 'light';
+        $userData['theme'] = $userData['theme'] ?? 'dark';
 
         if ($request->hasFile('photo')) {
             $filename = 'profile_' . time() . '.' . $request->photo->getClientOriginalExtension();
@@ -85,16 +87,18 @@ class UsuarioController extends Controller
     public function update(Request $request, User $usuario)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $usuario->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'rfc' => 'nullable|string|max:14|min:10',
-            'curp' => 'nullable|string|max:19|min:10',
-            'sexo' => 'nullable|in:femenino,masculino',
-            'theme' => 'nullable|in:dark,light',
-            'puesto' => 'nullable|in:Director,Subdirector,Coordinador,Jefe de departamento,Analista Especializado,Analista',
-            'nivel' => 'nullable|integer|min:1|max:7',
+            'rfc' => 'nullable|string|max:13|unique:users,rfc,' . $usuario->id,
+            'curp' => 'nullable|string|max:20|unique:users,curp,' . $usuario->id,
+            'direccion' => 'nullable|string|max:250',
+            'cargo' => 'nullable|string|max:35',
+            'sexo' => 'nullable|in:masculino,femenino',
+            'lvl' => 'nullable|string|max:10',
+            'tipo' => 'required|integer|min:1|max:5',
             'estatus' => 'nullable|boolean',
+            'theme' => 'nullable|in:light,dark',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 

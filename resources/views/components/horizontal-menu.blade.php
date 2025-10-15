@@ -1,14 +1,5 @@
 <!-- Menú Horizontal -->
 <nav class="flex items-center space-x-2 xl:space-x-4">
-    <!-- Logo del proyecto -->
-    <a class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-violet-500 to-violet-600 rounded-xl shadow-lg hover:shadow-violet-500/25 transition-all duration-200 hover:scale-105 p-2"
-        href="{{ route('dashboard') }}">
-        <svg class="fill-red-400 dark:fill-green-300 w-full h-full transition-colors duration-200"
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-            <path
-                d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-        </svg>
-    </a>
     <!-- Dashboard -->
     <a href="{{ route('dashboard') }}"
         class="flex items-center px-2 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 {{ Route::is('dashboard') ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">

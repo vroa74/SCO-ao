@@ -16,13 +16,13 @@
                         <!-- Información Básica -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="name"
+                                <label for="nombre"
                                     class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('Nombre completo') }} <span class="text-red-500">*</span>
                                 </label>
-                                <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                                <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:text-gray-100">
-                                @error('name')
+                                @error('nombre')
                                     <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -95,6 +95,21 @@
                         </div>
 
                         <!-- Información Personal -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="direccion"
+                                    class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('Dirección') }}
+                                </label>
+                                <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}"
+                                    maxlength="250" placeholder="{{ __('Ingrese la dirección') }}"
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:text-gray-100">
+                                @error('direccion')
+                                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label for="rfc"
@@ -142,60 +157,54 @@
                         </div>
 
                         <!-- Información Laboral -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="tipo"
+                                    class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('Tipo de usuario') }} <span class="text-red-500">*</span>
+                                </label>
+                                <select id="tipo" name="tipo" required
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:text-gray-100">
+                                    <option value="1" {{ old('tipo') == 1 ? 'selected' : '' }}>
+                                        Tipo 1 - Administrador</option>
+                                    <option value="2" {{ old('tipo') == 2 ? 'selected' : '' }}>
+                                        Tipo 2 - Supervisor</option>
+                                    <option value="3" {{ old('tipo', 3) == 3 ? 'selected' : '' }}>
+                                        Tipo 3 - Usuario</option>
+                                    <option value="4" {{ old('tipo') == 4 ? 'selected' : '' }}>
+                                        Tipo 4 - Invitado</option>
+                                    <option value="5" {{ old('tipo') == 5 ? 'selected' : '' }}>
+                                        Tipo 5 - Temporal</option>
+                                </select>
+                                @error('tipo')
+                                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label for="puesto"
+                                <label for="cargo"
                                     class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('Puesto') }}
+                                    {{ __('Cargo') }}
                                 </label>
-                                <select id="puesto" name="puesto"
+                                <input type="text" id="cargo" name="cargo" value="{{ old('cargo') }}"
+                                    maxlength="35" placeholder="{{ __('Ingrese el cargo') }}"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:text-gray-100">
-                                    <option value="">{{ __('Seleccionar puesto') }}</option>
-                                    <option value="Director" {{ old('puesto') == 'Director' ? 'selected' : '' }}>
-                                        {{ __('Director') }}</option>
-                                    <option value="Subdirector"
-                                        {{ old('puesto') == 'Subdirector' ? 'selected' : '' }}>{{ __('Subdirector') }}
-                                    </option>
-                                    <option value="Coordinador"
-                                        {{ old('puesto') == 'Coordinador' ? 'selected' : '' }}>{{ __('Coordinador') }}
-                                    </option>
-                                    <option value="Jefe de departamento"
-                                        {{ old('puesto') == 'Jefe de departamento' ? 'selected' : '' }}>
-                                        {{ __('Jefe de departamento') }}</option>
-                                    <option value="Analista Especializado"
-                                        {{ old('puesto') == 'Analista Especializado' ? 'selected' : '' }}>
-                                        {{ __('Analista Especializado') }}</option>
-                                    <option value="Analista" {{ old('puesto') == 'Analista' ? 'selected' : '' }}>
-                                        {{ __('Analista') }}</option>
-                                </select>
-                                @error('puesto')
+                                @error('cargo')
                                     <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div>
-                                <label for="nivel"
+                                <label for="lvl"
                                     class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('Nivel de acceso') }}
                                 </label>
-                                <select id="nivel" name="nivel"
+                                <input type="text" id="lvl" name="lvl" value="{{ old('lvl') }}"
+                                    maxlength="10" placeholder="{{ __('Ej: 1, 2, 3, etc.') }}"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:text-gray-100">
-                                    <option value="7" {{ old('nivel', 7) == 7 ? 'selected' : '' }}>Nivel 7 -
-                                        Usuario básico</option>
-                                    <option value="6" {{ old('nivel') == 6 ? 'selected' : '' }}>Nivel 6 - Usuario
-                                        avanzado</option>
-                                    <option value="5" {{ old('nivel') == 5 ? 'selected' : '' }}>Nivel 5 -
-                                        Operador</option>
-                                    <option value="4" {{ old('nivel') == 4 ? 'selected' : '' }}>Nivel 4 -
-                                        Supervisor</option>
-                                    <option value="3" {{ old('nivel') == 3 ? 'selected' : '' }}>Nivel 3 -
-                                        Coordinador</option>
-                                    <option value="2" {{ old('nivel') == 2 ? 'selected' : '' }}>Nivel 2 -
-                                        Administrador</option>
-                                    <option value="1" {{ old('nivel') == 1 ? 'selected' : '' }}>Nivel 1 - Super
-                                        Admin</option>
-                                </select>
-                                @error('nivel')
+                                @error('lvl')
                                     <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>

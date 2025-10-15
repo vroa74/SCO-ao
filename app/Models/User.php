@@ -24,16 +24,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
         'email',
         'password',
         'rfc',
         'curp',
+        'direccion',
+        'cargo',
         'sexo',
-        'theme',
-        'nivel',
-        'puesto',
+        'lvl',
+        'tipo',
         'estatus',
+        'theme',
     ];
 
     /**
@@ -55,6 +57,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'estatus' => 'boolean',
+        'tipo' => 'integer',
     ];
 
     /**
@@ -79,6 +83,6 @@ class User extends Authenticatable
         }
         
         // Fallback a avatar con iniciales usando UI Avatars
-        return "https://ui-avatars.com/api/?name=" . urlencode($this->name) . "&color=7F9CF5&background=EBF4FF";
+        return "https://ui-avatars.com/api/?name=" . urlencode($this->nombre) . "&color=7F9CF5&background=EBF4FF";
     }
 }
