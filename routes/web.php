@@ -5,6 +5,7 @@ use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\AgendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Admin - Usuarios CRUD
     Route::resource('usuarios', UsuarioController::class)->names('usuarios');
+
+    // Agenda CRUD
+    Route::resource('agenda', AgendaController::class)->names('agenda');
 
     // 404 fallback
     Route::fallback(function() {
