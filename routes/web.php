@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\UserGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Agenda CRUD
     Route::resource('agenda', AgendaController::class)->names('agenda');
+
+    // User Groups CRUD
+    Route::resource('user-groups', UserGroupController::class)->names('user-groups');
+    Route::post('user-groups/{userGroup}/add-member', [UserGroupController::class, 'addMember'])->name('user-groups.add-member');
+    Route::delete('user-groups/{userGroup}/remove-member', [UserGroupController::class, 'removeMember'])->name('user-groups.remove-member');
+    Route::patch('user-groups/{userGroup}/update-member-role', [UserGroupController::class, 'updateMemberRole'])->name('user-groups.update-member-role');
 
     // 404 fallback
     Route::fallback(function() {

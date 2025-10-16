@@ -17,18 +17,15 @@ class Agenda extends Model
      */
     protected $fillable = [
         'titulo',
-        'descripcion',
-        'fecha',
-        'hora_inicio',
-        'hora_fin',
-        'tipo',
-        'prioridad',
-        'estado',
-        'ubicacion',
-        'usuario_id',
-        'participantes',
-        'recordatorio',
-        'minutos_antes',
+        'nombre',
+        'apaterno',
+        'amaterno',
+        'cargo',
+        'deporg',
+        'telefono',
+        'email',
+        'dir',
+        'modifico',
     ];
 
     /**
@@ -37,66 +34,62 @@ class Agenda extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'fecha' => 'date',
-        'hora_inicio' => 'datetime:H:i',
-        'hora_fin' => 'datetime:H:i',
-        'participantes' => 'array',
-        'recordatorio' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
-     * Get the user that owns the agenda.
+     * Scope para filtrar por título.
      */
-    public function usuario(): BelongsTo
+    public function scopePorTitulo($query, $titulo)
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $query->where('titulo', 'like', "%{$titulo}%");
     }
 
     /**
-     * Scope para filtrar por fecha.
+     * Scope para filtrar por nombre.
      */
-    public function scopePorFecha($query, $fecha)
+    public function scopePorNombre($query, $nombre)
     {
-        return $query->whereDate('fecha', $fecha);
+        return $query->where('nombre', 'like', "%{$nombre}%");
     }
 
     /**
-     * Scope para filtrar por tipo.
+     * Scope para filtrar por cargo.
      */
-    public function scopePorTipo($query, $tipo)
+    public function scopePorCargo($query, $cargo)
     {
-        return $query->where('tipo', $tipo);
+        return $query->where('cargo', 'like', "%{$cargo}%");
     }
 
     /**
-     * Scope para filtrar por prioridad.
+     * Scope para filtrar por departamento/organización.
      */
-    public function scopePorPrioridad($query, $prioridad)
+    public function scopePorDeporg($query, $deporg)
     {
-        return $query->where('prioridad', $prioridad);
+        return $query->where('deporg', 'like', "%{$deporg}%");
     }
 
     /**
-     * Scope para filtrar por estado.
+     * Scope para filtrar por email.
      */
-    public function scopePorEstado($query, $estado)
+    public function scopePorEmail($query, $email)
     {
-        return $query->where('estado', $estado);
+        return $query->where('email', 'like', "%{$email}%");
     }
 
     /**
-     * Scope para eventos del usuario autenticado.
+     * Scope para buscar en múltiples campos.
      */
-    public function scopeDelUsuario($query, $usuarioId)
+    public function scopeBuscar($query, $termino)
     {
-        return $query->where('usuario_id', $usuarioId);
-    }
-
-    /**
-     * Scope para eventos con recordatorio.
-     */
-    public function scopeConRecordatorio($query)
-    {
-        return $query->where('recordatorio', true);
+        return $query->where(function($q) use ($termino) {
+            $q->where('nombre', 'like', "%{$termino}%")
+              ->orWhere('apaterno', 'like', "%{$termino}%")
+              ->orWhere('amaterno', 'like', "%{$termino}%")
+              ->orWhere('cargo', 'like', "%{$termino}%")
+              ->orWhere('deporg', 'like', "%{$termino}%")
+              ->orWhere('email', 'like', "%{$termino}%");
+        });
     }
 }

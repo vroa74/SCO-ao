@@ -13,9 +13,27 @@ class UsuarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = User::orderBy('created_at', 'desc')->paginate(10);
+        $query = User::query();
+
+        // Filtro por nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', "%{$request->nombre}%");
+        }
+
+        // Filtro por dirección
+        if ($request->filled('direccion')) {
+            $query->where('direccion', 'like', "%{$request->direccion}%");
+        }
+
+        // Filtro por puesto/cargo
+        if ($request->filled('cargo')) {
+            $query->where('cargo', 'like', "%{$request->cargo}%");
+        }
+
+        $usuarios = $query->orderBy('id', 'asc')->paginate(10);
+        
         return view('admin.usuarios.index', compact('usuarios'));
     }
 

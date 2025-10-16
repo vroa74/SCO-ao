@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Gestión de Usuarios') }}
+            {{ __('Gestión de Agenda') }}
         </h2>
     </x-slot>
 
@@ -12,82 +12,50 @@
                     <!-- Header con botón crear -->
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            {{ __('Lista de Usuarios') }}
+                            {{ __('Lista de Contactos de Agenda') }}
                         </h3>
-                        <a href="{{ route('usuarios.create') }}"
+                        <a href="{{ route('agenda.create') }}"
                             class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-violet-600 hover:bg-violet-700 rounded-md transition-colors">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v16m8-8H4"></path>
                             </svg>
-                            {{ __('Crear Usuario') }}
+                            {{ __('Crear Contacto') }}
                         </a>
                     </div>
 
-                    <!-- Filtros -->
-                    <div class="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                        <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
-                            {{ __('Filtros de Búsqueda') }}
-                        </h4>
-                        <form method="GET" action="{{ route('usuarios.index') }}"
-                            class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Filtro por Nombre -->
-                            <div>
-                                <label for="nombre"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('Nombre') }}
-                                </label>
-                                <input type="text" id="nombre" name="nombre" value="{{ request('nombre') }}"
-                                    placeholder="{{ __('Buscar por nombre...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
-                            </div>
+                    <!-- Formulario de búsqueda -->
+                    <div class="mb-4">
+                        <form method="GET" action="{{ route('agenda.index') }}" class="flex flex-wrap gap-2">
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="{{ __('Buscar por nombre, cargo, email...') }}"
+                                class="flex-1 min-w-64 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:text-white">
 
-                            <!-- Filtro por Dirección -->
-                            <div>
-                                <label for="direccion"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('Dirección') }}
-                                </label>
-                                <input type="text" id="direccion" name="direccion"
-                                    value="{{ request('direccion') }}"
-                                    placeholder="{{ __('Buscar por dirección...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
-                            </div>
+                            <input type="text" name="titulo" value="{{ request('titulo') }}"
+                                placeholder="{{ __('Título') }}"
+                                class="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:text-white">
 
-                            <!-- Filtro por Puesto/Cargo -->
-                            <div>
-                                <label for="cargo"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('Puesto') }}
-                                </label>
-                                <input type="text" id="cargo" name="cargo" value="{{ request('cargo') }}"
-                                    placeholder="{{ __('Buscar por puesto...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
-                            </div>
+                            <input type="text" name="cargo" value="{{ request('cargo') }}"
+                                placeholder="{{ __('Cargo') }}"
+                                class="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:text-white">
 
-                            <!-- Botones de acción -->
-                            <div class="md:col-span-3 flex justify-end space-x-2">
-                                <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                    {{ __('Filtrar') }}
-                                </button>
-                                <a href="{{ route('usuarios.index') }}"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                    {{ __('Limpiar') }}
-                                </a>
-                            </div>
+                            <input type="text" name="deporg" value="{{ request('deporg') }}"
+                                placeholder="{{ __('Departamento/Organización') }}"
+                                class="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:text-white">
+
+                            <button type="submit"
+                                class="px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 rounded-md transition-colors">
+                                {{ __('Buscar') }}
+                            </button>
+
+                            <a href="{{ route('agenda.index') }}"
+                                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors">
+                                {{ __('Limpiar') }}
+                            </a>
                         </form>
                     </div>
 
-                    <!-- Tabla de usuarios -->
+                    <!-- Tabla de agenda -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
@@ -98,11 +66,23 @@
                                     </th>
                                     <th
                                         class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Foto') }}
+                                        {{ __('Título') }}
                                     </th>
                                     <th
                                         class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Nombre') }}
+                                        {{ __('Nombre Completo') }}
+                                    </th>
+                                    <th
+                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        {{ __('Cargo') }}
+                                    </th>
+                                    <th
+                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        {{ __('Departamento/Organización') }}
+                                    </th>
+                                    <th
+                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        {{ __('Teléfono') }}
                                     </th>
                                     <th
                                         class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -110,19 +90,7 @@
                                     </th>
                                     <th
                                         class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Dirección/Puesto') }}
-                                    </th>
-                                    <th
-                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Nivel') }}
-                                    </th>
-                                    <th
-                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Estado') }}
-                                    </th>
-                                    <th
-                                        class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Creado') }}
+                                        {{ __('Modificado por') }}
                                     </th>
                                     <th
                                         class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -131,82 +99,52 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                @forelse($usuarios as $usuario)
+                                @forelse($agendas as $agenda)
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                        <td
-                                            class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                            {{ $usuario->id }}
-                                        </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
-                                            <div class="flex-shrink-0">
-                                                @php
-                                                    $profilePhotoUrl =
-                                                        $usuario->profile_photo_path &&
-                                                        file_exists(public_path($usuario->profile_photo_path))
-                                                            ? asset($usuario->profile_photo_path)
-                                                            : 'https://ui-avatars.com/api/?name=' .
-                                                                urlencode($usuario->name) .
-                                                                '&color=7F9CF5&background=EBF4FF&size=32';
-                                                @endphp
-                                                <img class="h-8 w-8 rounded-full object-cover"
-                                                    src="{{ $profilePhotoUrl }}" alt="{{ $usuario->nombre }}">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                {{ $agenda->id }}
                                             </div>
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                {{ $usuario->nombre }}
+                                                {{ $agenda->titulo ?? '-' }}
                                             </div>
-                                            @if ($usuario->rfc)
-                                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                                    RFC: {{ $usuario->rfc }}
-                                                </div>
-                                            @endif
+                                        </td>
+                                        <td class="px-3 py-2 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                {{ trim($agenda->nombre . ' ' . $agenda->apaterno . ' ' . $agenda->amaterno) ?: '-' }}
+                                            </div>
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
                                             <div class="text-sm text-gray-900 dark:text-gray-100">
-                                                {{ $usuario->email }}
+                                                {{ $agenda->cargo ?? '-' }}
                                             </div>
-                                            @if ($usuario->sexo)
-                                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                                    {{ ucfirst($usuario->sexo) }}
-                                                </div>
-                                            @endif
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
                                             <div class="text-sm text-gray-900 dark:text-gray-100">
-                                                {{ $usuario->direccion ?? 'Sin dirección' }}
+                                                {{ $agenda->deporg ?? '-' }}
                                             </div>
-                                            @if ($usuario->cargo)
-                                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                                    {{ $usuario->cargo }}
-                                                </div>
-                                            @endif
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full
-                                                @if ($usuario->lvl == '1' || $usuario->lvl == '2') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                                @elseif($usuario->lvl == '3' || $usuario->lvl == '4') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                                @else bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 @endif">
-                                                Nivel {{ $usuario->lvl ?? 'Sin nivel' }}
-                                            </span>
+                                            <div class="text-sm text-gray-900 dark:text-gray-100">
+                                                {{ $agenda->telefono ?? '-' }}
+                                            </div>
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap">
-                                            <span
-                                                class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full
-                                                @if ($usuario->estatus) bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                                @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 @endif">
-                                                {{ $usuario->estatus ? 'Activo' : 'Inactivo' }}
-                                            </span>
+                                            <div class="text-sm text-gray-900 dark:text-gray-100">
+                                                {{ $agenda->email ?? '-' }}
+                                            </div>
                                         </td>
-                                        <td
-                                            class="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $usuario->created_at->format('d/m/Y') }}
+                                        <td class="px-3 py-2 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">
+                                                {{ $agenda->modifico ?? '-' }}
+                                            </div>
                                         </td>
                                         <td class="px-3 py-2 whitespace-nowrap text-sm font-medium">
                                             <div class="flex space-x-1">
                                                 <!-- Botón Ver -->
-                                                <a href="{{ route('usuarios.show', $usuario) }}"
+                                                <a href="{{ route('agenda.show', $agenda) }}"
                                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-violet-600 bg-violet-50 hover:bg-violet-100 dark:bg-violet-900/20 dark:text-violet-400 dark:hover:bg-violet-900/30 rounded-md transition-colors"
                                                     title="{{ __('Ver') }}">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor"
@@ -222,7 +160,7 @@
                                                 </a>
 
                                                 <!-- Botón Editar -->
-                                                <a href="{{ route('usuarios.edit', $usuario) }}"
+                                                <a href="{{ route('agenda.edit', $agenda) }}"
                                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30 rounded-md transition-colors"
                                                     title="{{ __('Editar') }}">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor"
@@ -235,7 +173,7 @@
                                                 </a>
 
                                                 <!-- Botón Eliminar -->
-                                                <button onclick="confirmDelete({{ $usuario->id }})"
+                                                <button onclick="confirmDelete({{ $agenda->id }})"
                                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 rounded-md transition-colors"
                                                     title="{{ __('Eliminar') }}">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor"
@@ -253,7 +191,7 @@
                                     <tr>
                                         <td colspan="9"
                                             class="px-3 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
-                                            {{ __('No se encontraron usuarios') }}
+                                            {{ __('No se encontraron contactos en la agenda') }}
                                         </td>
                                     </tr>
                                 @endforelse
@@ -262,9 +200,9 @@
                     </div>
 
                     <!-- Paginación -->
-                    @if ($usuarios->hasPages())
+                    @if ($agendas->hasPages())
                         <div class="mt-4">
-                            {{ $usuarios->appends(request()->query())->links() }}
+                            {{ $agendas->links() }}
                         </div>
                     @endif
                 </div>
@@ -280,7 +218,7 @@
                     {{ __('Confirmar eliminación') }}
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-                    {{ __('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.') }}
+                    {{ __('¿Estás seguro de que quieres eliminar este contacto? Esta acción no se puede deshacer.') }}
                 </p>
                 <div class="flex space-x-3">
                     <button onclick="closeDeleteModal()"
@@ -301,8 +239,8 @@
     </div>
 
     <script>
-        function confirmDelete(userId) {
-            document.getElementById('deleteForm').action = `/usuarios/${userId}`;
+        function confirmDelete(agendaId) {
+            document.getElementById('deleteForm').action = `/agenda/${agendaId}`;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
 

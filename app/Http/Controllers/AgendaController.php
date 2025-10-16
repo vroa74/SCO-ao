@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class AgendaController extends Controller
@@ -12,31 +13,37 @@ class AgendaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $query = Agenda::with('usuario')
-            ->delUsuario(Auth::id())
-            ->orderBy('fecha', 'desc')
-            ->orderBy('hora_inicio', 'asc');
+        $query = Agenda::query();
 
-        // Filtros
-        if ($request->filled('fecha')) {
-            $query->porFecha($request->fecha);
+        // Búsqueda
+        if ($request->filled('search')) {
+            $query->buscar($request->search);
         }
 
-        if ($request->filled('tipo')) {
-            $query->porTipo($request->tipo);
+        // Filtros específicos
+        if ($request->filled('titulo')) {
+            $query->porTitulo($request->titulo);
         }
 
-        if ($request->filled('prioridad')) {
-            $query->porPrioridad($request->prioridad);
+        if ($request->filled('nombre')) {
+            $query->porNombre($request->nombre);
         }
 
-        if ($request->filled('estado')) {
-            $query->porEstado($request->estado);
+        if ($request->filled('cargo')) {
+            $query->porCargo($request->cargo);
         }
 
-        $agendas = $query->paginate(10);
+        if ($request->filled('deporg')) {
+            $query->porDeporg($request->deporg);
+        }
+
+        if ($request->filled('email')) {
+            $query->porEmail($request->email);
+        }
+
+        $agendas = $query->orderBy('created_at', 'desc')->paginate(15);
 
         return view('agenda.index', compact('agendas'));
     }
@@ -44,133 +51,87 @@ class AgendaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        $usuarios = User::where('estatus', true)
-            ->where('id', '!=', Auth::id())
-            ->orderBy('nombre')
-            ->get();
-
-        return view('agenda.create', compact('usuarios'));
+        return view('agenda.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'nullable|date_format:H:i|after:hora_inicio',
-            'tipo' => 'required|in:reunion,evento,tarea,recordatorio',
-            'prioridad' => 'required|in:baja,media,alta,urgente',
-            'estado' => 'required|in:pendiente,en_progreso,completado,cancelado',
-            'ubicacion' => 'nullable|string|max:255',
-            'participantes' => 'nullable|array',
-            'participantes.*' => 'exists:users,id',
-            'recordatorio' => 'boolean',
-            'minutos_antes' => 'nullable|integer|min:1|max:1440',
+        $validated = $request->validate([
+            'titulo' => 'nullable|string|max:5',
+            'nombre' => 'nullable|string|max:30',
+            'apaterno' => 'nullable|string|max:30',
+            'amaterno' => 'nullable|string|max:30',
+            'cargo' => 'nullable|string|max:30',
+            'deporg' => 'nullable|string|max:60',
+            'telefono' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'dir' => 'nullable|string',
+            'modifico' => 'nullable|string|max:20',
         ]);
 
-        $agendaData = $request->all();
-        $agendaData['usuario_id'] = Auth::id();
+        $validated['modifico'] = Auth::user()->name ?? 'Sistema';
 
-        // Convertir participantes a array si viene como string
-        if ($request->has('participantes') && is_string($request->participantes)) {
-            $agendaData['participantes'] = json_decode($request->participantes, true);
-        }
+        Agenda::create($validated);
 
-        Agenda::create($agendaData);
-
-        return redirect()->route('agenda.index')->with('success', 'Evento creado exitosamente.');
+        return redirect()->route('agenda.index')
+            ->with('success', 'Registro de agenda creado exitosamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Agenda $agenda)
+    public function show(Agenda $agenda): View
     {
-        // Verificar que el usuario sea el propietario del evento
-        if ($agenda->usuario_id !== Auth::id()) {
-            abort(403, 'No tienes permisos para ver este evento.');
-        }
-
-        $agenda->load('usuario');
-
         return view('agenda.show', compact('agenda'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Agenda $agenda)
+    public function edit(Agenda $agenda): View
     {
-        // Verificar que el usuario sea el propietario del evento
-        if ($agenda->usuario_id !== Auth::id()) {
-            abort(403, 'No tienes permisos para editar este evento.');
-        }
-
-        $usuarios = User::where('estatus', true)
-            ->where('id', '!=', Auth::id())
-            ->orderBy('nombre')
-            ->get();
-
-        return view('agenda.edit', compact('agenda', 'usuarios'));
+        return view('agenda.edit', compact('agenda'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Agenda $agenda)
+    public function update(Request $request, Agenda $agenda): RedirectResponse
     {
-        // Verificar que el usuario sea el propietario del evento
-        if ($agenda->usuario_id !== Auth::id()) {
-            abort(403, 'No tienes permisos para editar este evento.');
-        }
-
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'nullable|date_format:H:i|after:hora_inicio',
-            'tipo' => 'required|in:reunion,evento,tarea,recordatorio',
-            'prioridad' => 'required|in:baja,media,alta,urgente',
-            'estado' => 'required|in:pendiente,en_progreso,completado,cancelado',
-            'ubicacion' => 'nullable|string|max:255',
-            'participantes' => 'nullable|array',
-            'participantes.*' => 'exists:users,id',
-            'recordatorio' => 'boolean',
-            'minutos_antes' => 'nullable|integer|min:1|max:1440',
+        $validated = $request->validate([
+            'titulo' => 'nullable|string|max:5',
+            'nombre' => 'nullable|string|max:30',
+            'apaterno' => 'nullable|string|max:30',
+            'amaterno' => 'nullable|string|max:30',
+            'cargo' => 'nullable|string|max:30',
+            'deporg' => 'nullable|string|max:60',
+            'telefono' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'dir' => 'nullable|string',
+            'modifico' => 'nullable|string|max:20',
         ]);
 
-        $agendaData = $request->all();
+        $validated['modifico'] = Auth::user()->name ?? 'Sistema';
 
-        // Convertir participantes a array si viene como string
-        if ($request->has('participantes') && is_string($request->participantes)) {
-            $agendaData['participantes'] = json_decode($request->participantes, true);
-        }
+        $agenda->update($validated);
 
-        $agenda->update($agendaData);
-
-        return redirect()->route('agenda.index')->with('success', 'Evento actualizado exitosamente.');
+        return redirect()->route('agenda.index')
+            ->with('success', 'Registro de agenda actualizado exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Agenda $agenda)
+    public function destroy(Agenda $agenda): RedirectResponse
     {
-        // Verificar que el usuario sea el propietario del evento
-        if ($agenda->usuario_id !== Auth::id()) {
-            abort(403, 'No tienes permisos para eliminar este evento.');
-        }
-
         $agenda->delete();
 
-        return redirect()->route('agenda.index')->with('success', 'Evento eliminado exitosamente.');
+        return redirect()->route('agenda.index')
+            ->with('success', 'Registro de agenda eliminado exitosamente.');
     }
 }
