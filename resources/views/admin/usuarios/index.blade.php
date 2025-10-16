@@ -25,59 +25,59 @@
                     </div>
 
                     <!-- Filtros -->
-                    <div class="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                        <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+                    <div class="mb-4 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                        <h4 class="text-xs font-medium text-gray-900 dark:text-gray-100 mb-2">
                             {{ __('Filtros de Búsqueda') }}
                         </h4>
                         <form method="GET" action="{{ route('usuarios.index') }}"
-                            class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <!-- Filtro por Nombre -->
                             <div>
                                 <label for="nombre"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('Nombre') }}
                                 </label>
                                 <input type="text" id="nombre" name="nombre" value="{{ request('nombre') }}"
                                     placeholder="{{ __('Buscar por nombre...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
+                                    class="block w-full px-2 py-1 text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
                             </div>
 
                             <!-- Filtro por Dirección -->
                             <div>
                                 <label for="direccion"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('Dirección') }}
                                 </label>
                                 <input type="text" id="direccion" name="direccion"
                                     value="{{ request('direccion') }}"
                                     placeholder="{{ __('Buscar por dirección...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
+                                    class="block w-full px-2 py-1 text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
                             </div>
 
                             <!-- Filtro por Puesto/Cargo -->
                             <div>
                                 <label for="cargo"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('Puesto') }}
                                 </label>
                                 <input type="text" id="cargo" name="cargo" value="{{ request('cargo') }}"
                                     placeholder="{{ __('Buscar por puesto...') }}"
-                                    class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
+                                    class="block w-full px-2 py-1 text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm">
                             </div>
 
                             <!-- Botones de acción -->
                             <div class="md:col-span-3 flex justify-end space-x-2">
                                 <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="inline-flex items-center px-3 py-1 text-xs font-medium text-white bg-violet-600 hover:bg-violet-700 rounded-md transition-colors">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                     {{ __('Filtrar') }}
                                 </button>
                                 <a href="{{ route('usuarios.index') }}"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-md transition-colors">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M6 18L18 6M6 6l12 12"></path>
                                     </svg>
