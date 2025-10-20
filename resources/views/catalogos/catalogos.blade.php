@@ -16,34 +16,35 @@
     </div>
 
     <!-- Versión DESKTOP - Grid horizontal 4 columnas -->
-    <div id="desktop-grid" class="hidden grid grid-cols-4 pt-2 gap-1 w-full h-full px-2 text-white">
-        <div class="border-2 border-blue-950 rounded-lg p-1 items-center flex flex-col text-center space-y-1">
+    <div id="desktop-grid" class="grid grid-cols-4 pt-2 gap-1 w-full h-full px-2 text-white">
+        <div class="border-2 border-blue-950 rounded-lg p-1 items-center text-center">
             @livewire('leg')
         </div>
-        <div class="border-2 border-blue-900 rounded-lg p-1 text-center flex flex-col items-center space-y-1">
-            @livewire('nc')
+        <div class="border-2 border-blue-900 rounded-lg p-1 text-center">
+            @livewire('catalogo.nc-component')
         </div>
-        <div class="border-2 border-blue-800 rounded-lg p-1 text-center flex flex-col items-center space-y-1">
-            @livewire('tc')
+        <div class="border-2 border-blue-800 rounded-lg p-1 text-center">
+            @livewire('catalogo.tc-component')
         </div>
-        <div class="border-2 border-blue-700 rounded-lg p-1 text-center items-center flex flex-col space-y-1">
-            @livewire('cc')
+        <div class="border-2 border-blue-700 rounded-lg p-1 text-center">
+            @livewire('catalogo.cc-component')
         </div>
     </div>
 
     <!-- Versión MOBILE - Grid vertical 1 columna -->
     <div id="mobile-grid" class="hidden grid grid-cols-1 pt-2 gap-2 w-full h-full px-2 text-white">
         <div class="border-2 border-red-950 rounded-lg p-2 items-center flex flex-col text-center space-y-1">
+            {{-- @livewire('test-component') --}}
             @livewire('leg')
         </div>
         <div class="border-2 border-red-900 rounded-lg p-2 text-center flex flex-col items-center space-y-1">
-            @livewire('nc')
+            @livewire('catalogo.nc-component')
         </div>
         <div class="border-2 border-red-800 rounded-lg p-2 text-center flex flex-col items-center space-y-1">
-            @livewire('tc')
+            @livewire('catalogo.tc-component')
         </div>
         <div class="border-2 border-red-700 rounded-lg p-2 text-center items-center flex flex-col space-y-1">
-            @livewire('cc')
+            @livewire('catalogo.cc-component')
         </div>
     </div>
 

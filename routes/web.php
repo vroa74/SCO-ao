@@ -38,6 +38,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/qr', [QrCodeController::class, 'index'])->name('qr');
     Route::post('/qr/generate', [QrCodeController::class, 'generate'])->name('qr.generate');
 
+    // Catalogos page
+    Route::get('/catalogos', function () {
+        return view('catalogos/catalogos');
+    })->name('catalogos');
+
     // Admin - Usuarios CRUD
     Route::resource('usuarios', UsuarioController::class)->names('usuarios');
 
